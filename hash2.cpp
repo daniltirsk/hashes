@@ -10,7 +10,7 @@ using namespace std;
 
 int hashByDivision16(string line){
     int hashed_string;
-    // если строка недостаточно длиная, то дополняем ее нулями
+    // ГҐГ±Г«ГЁ Г±ГІГ°Г®ГЄГ  Г­ГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® Г¤Г«ГЁГ­Г Гї, ГІГ® Г¤Г®ГЇГ®Г«Г­ГїГҐГ¬ ГҐГҐ Г­ГіГ«ГїГ¬ГЁ
     if(line.length()*8<16){
         hashed_string = int(line[line.length()-2]) * 256;
     } else {
@@ -38,10 +38,10 @@ int middleOfSquare(string line){
 int collapseHash(string line){
  int upper=0;
  int lower=0;
- //xor нечетных с нечетными и четных с четными
+ //xor Г­ГҐГ·ГҐГІГ­Г»Гµ Г± Г­ГҐГ·ГҐГІГ­Г»Г¬ГЁ ГЁ Г·ГҐГІГ­Г»Гµ Г± Г·ГҐГІГ­Г»Г¬ГЁ
  for(int i=0;i<line.length();i+=2){
     upper = upper ^ int(line[i]);
-    lower = lower ^ int(line[i+1]);
+    if (line.length()>1) lower = lower ^ int(line[i+1]);
  }
  return upper*256 + lower;
 }

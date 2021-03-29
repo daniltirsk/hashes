@@ -13,6 +13,10 @@ size of hash - 16 bits
 
 hash by division - unique_hashes: 864 collisions: 64672 collisions_share: 0,987
 
-middleOfSquare - unique_hashes: 1954 collisions: 63582 collisions_share: 0,970
+middleOfSquare(ASCII) - unique_hashes: 1954 collisions: 63582 collisions_share: 0,970
+
+middleOfSquare(Polynomial) - unique_hashes: 40733 collisions: 24803 collisions_share: 0,378
 
 collapseHash - unique_hashes: 10599 collisions: 54937 collisions_share: 0,838
+
+shiftHash - unique_hashes: 62750 collisions: 2786 collisions_share: 0,042

@@ -10,7 +10,7 @@ using namespace std;
 
 int hashByDivision16(string line){
     int hashed_string;
-    // åñëè ñòðîêà íåäîñòàòî÷íî äëèíàÿ, òî äîïîëíÿåì åå íóëÿìè
+    // если строка недостаточно длиная, то дополняем ее нулями
     if(line.length()*8<16){
         hashed_string = int(line[line.length()-2]) * 256;
     } else {
@@ -19,13 +19,32 @@ int hashByDivision16(string line){
     return hashed_string;
 }
 
-int middleOfSquare(string line){
+int middleOfSquareASCII(string line){
     int sumOfLine = 0;
     int hashed_line;
     for (int i = 0; i < line.length(); i++){
         sumOfLine += int(line[i]);
     }
+
     hashed_line = sumOfLine*sumOfLine;
+
+    int upperBound=1;
+    while(hashed_line/int(pow(2,upperBound))){
+        upperBound++;
+    }
+
+    return (((1 << 16) - 1) & (hashed_line >> (upperBound-16)/2));
+}
+
+int middleOfSquarePoly(string line){
+    int hashed_line;
+    unsigned int h;
+
+    for(int i = 0; i < line.length(); i++) {
+        h = h + (unsigned int)pow(line.at(i), (i+1));
+    }
+
+    hashed_line = h*h;
 
     int upperBound=1;
     while(hashed_line/int(pow(2,upperBound))){
@@ -38,12 +57,29 @@ int middleOfSquare(string line){
 int collapseHash(string line){
  int upper=0;
  int lower=0;
- //xor íå÷åòíûõ ñ íå÷åòíûìè è ÷åòíûõ ñ ÷åòíûìè
+ //xor нечетных с нечетными и четных с четными
  for(int i=0;i<line.length();i+=2){
     upper = upper ^ int(line[i]);
     if (line.length()>1) lower = lower ^ int(line[i+1]);
  }
  return upper*256 + lower;
+}
+
+int shiftHash(string line){
+    int hashed_line=0;
+    if(line.size()>1 && line.size()%2 == 0){
+        for(int i = 0; i<line.size(); i+=2){
+            hashed_line ^= (line[i]*256 + line[i+1] >> (i+1)) ^ (line[i]*256 + line[i+1] << (15-i));
+        }
+    } else if(line.size()>1) {
+        for(int i = 0; i<line.size()-1; i+=2){
+            hashed_line ^= (line[i]*256 + line[i+1] >> (i+1)) ^ (line[i]*256 + line[i+1] << (15-i));
+        }
+        hashed_line ^= (line[line.size()-1]*256) >> (line.size()) ^ (line[line.size()-1]*256 << (16-line.size()));
+    } else {
+        hashed_line ^= (line[line.size()-1]*256) >> (line.size()) ^ (line[line.size()-1]*256 << (16-line.size()));
+    }
+    return hashed_line;
 }
 
 int main(){
@@ -57,12 +93,13 @@ int main(){
     if (in_file.is_open()){
         string line;
         while(getline(in_file, line)){
-            n = collapseHash(line);
+            n = shiftHash(line);
             unique_hashes.insert(n);
             total_num++;
         }
         in_file.close();
     }
+
     cout<<"total_num: "<<total_num<<" unique_hashes: "<<unique_hashes.size()<<" collisions: "<<total_num - unique_hashes.size()<<endl;
     return 0;
 }

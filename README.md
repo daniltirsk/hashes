@@ -19,4 +19,4 @@ middleOfSquare(Polynomial) - unique_hashes: 40733 collisions: 24803 collisions_s
 
 collapseHash - unique_hashes: 10599 collisions: 54937 collisions_share: 0,838
 
-shiftHash - unique_hashes: 62750 collisions: 2786 collisions_share: 0,042
+shiftHash -  unique_hashes: 40873 collisions: 24663 collisions_share: 0,376

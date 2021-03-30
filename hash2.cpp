@@ -66,7 +66,7 @@ int collapseHash(string line){
 }
 
 int shiftHash(string line){
-    int hashed_line=0;
+    int16_t hashed_line=0;
     if(line.size()>1 && line.size()%2 == 0){
         for(int i = 0; i<line.size(); i+=2){
             hashed_line ^= (line[i]*256 + line[i+1] >> (i+1)) ^ (line[i]*256 + line[i+1] << (15-i));
